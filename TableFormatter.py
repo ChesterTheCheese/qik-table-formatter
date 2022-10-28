@@ -3,20 +3,17 @@ from itertools import product
 from typing import List, Dict
 
 import pyperclip as cp
- 
+
 parser = argparse.ArgumentParser()
-parser.add_argument('-s', '--search', nargs='+', help='values to be searched') # TODO
-parser.add_argument('-r', '--rows', type=str, nargs='+', help='row numbers to display')
-parser.add_argument('-c', '--columns', type=str, nargs='+', help='column names to display "col1" "col2" eg. -c col1 "Column Name 2" col3')
-parser.add_argument('-cc', '--columns-combined', type=str, help='column names to display "col1;col2"')
+parser.add_argument('-r', '--rows', type=str, nargs='+', help='row numbers to display, eg. "-r :2 3 5:7 7 9:"')
+parser.add_argument('-c', '--columns', type=str, nargs='+', help='column names to display, eg. "-c col1 \'Column Name 2\' col3"')
+parser.add_argument('-cc', '--columns-combined', type=str, help='column names to display, eg. "-cc \'col1;col2\'"')
+parser.add_argument('-s', '--search', nargs='+', help='values to be searched, TODO')
+parser.print_help()
 
 args = parser.parse_args()
 
-# args.columns = ['Ln', 'Age']
-# args.rows = ['0:1', '3:']
-
-print(args)
-# parse --rows :2 3 5:6 7 9: -> 0, 1, -, 3, -, 5, -, 7, -, 9+
+# example: parse --rows :2 3 5:6 7 9: -> 0, 1, -, 3, -, 5, -, 7, -, 9+
 if args.rows:
     newRows = {}
     for r in args.rows:
@@ -43,19 +40,17 @@ if args.rows:
         else:
             newRows[int(r)] = 1
     args.rows = newRows
-# parse --columns-combined "Ln;Card no;Customer id" -> ['Ln', 'Card no', 'Customer id']
+# example: parse --columns-combined "Ln;Card no;Customer id" -> ['Ln', 'Card no', 'Customer id']
 if args.columns_combined:
     args.columns = str(args.columns_combined).split(';')
-# parse --search 2018-01-02 {"First name": [Katarina, Luise], AnotherKey:"Another value"} Age=CHILD
-# parse --where "Age=CHILD and (First name=Katarina OR First name = Luise)"
+# TODO example: parse --search 2018-01-02 {"First name": [Katarina, Luise], AnotherKey:"Another value"} Age=CHILD
+# TODO example: parse --where "Age=CHILD and (First name=Katarina OR First name = Luise)"
+
+# args.columns = ['Ln', 'Age']
+# args.rows = ['0:1', '3:']
+# args = parser.parse_args(['--rows', '1', '2', '--columns', 'XXX'])
 
 print(args)
-
-
-# parser.print_help()
-# print()
-# args = parser.parse_args(['--rows', '1', '2', '--columns', 'XXX'])
-# print(args)
 
 
 class Column:
